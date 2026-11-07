@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MINI CITY — Ойын-сауық орталығы</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ─── DESIGN TOKENS ─── */
+    :root {
+      --bg: #FBFBFC;
+      --surface: #FFFFFF;
+      --surface-subtle: #F4F5F7;
+      --surface-border: #E5E7EB;
+      --surface-border-light: rgba(0, 0, 0, 0.05);
+      
+      --text-main: #0B0F19;
+      --text-secondary: #4B5565;
+      --text-muted: #858D9D;
+      
+      --accent: #FF5E00;
+      --accent-hover: #E05200;
+      --accent-glow: rgba(255, 94, 0, 0.16);
+      --accent-subtle: #FFF3EB;
+      
+      --gold: #FFB300;
+      --dark-card: #0F121C;
+      --dark-card-border: #1E2333;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --radius-full: 9999px;
+      
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 16px 40px -8px rgba(0, 0, 0, 0.08);
+      --shadow-glow: 0 12px 36px rgba(255, 94, 0, 0.22);
+      
+      --transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ─── HEADER ─── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(251, 251, 252, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--surface-border-light);
+      transition: var(--transition);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      height: 48px;
+      width: auto;
+      border-radius: 8px;
+      object-fit: contain;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--surface-border-light);
+      background: #0E1017;
+      padding: 2px 4px;
+      display: block;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .brand-subtitle {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-item {
+      padding: 9px 18px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      border-radius: var(--radius-full);
+      transition: var(--transition);
+    }
+
+    .nav-item:hover {
+      color: var(--text-main);
+      background-color: var(--surface-subtle);
+    }
+
+    .header-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 22px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: var(--text-main);
+      border-radius: var(--radius-full);
+      transition: var(--transition);
+      letter-spacing: 0.01em;
+    }
+
+    .header-cta:hover {
+      background: var(--accent);
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-1px);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      padding: 96px 0 80px;
+      overflow: hidden;
+    }
+
+    .hero-glow-1 {
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 680px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(255, 94, 0, 0.12) 0%, rgba(255, 179, 0, 0.06) 45%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+    }
+
+    .hero-badge-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .hero-title {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 800;
+      line-height: 1.06;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      margin-bottom: 20px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, var(--accent) 0%, #FFA000 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 620px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 15px 32px;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-glow);
+      transition: var(--transition);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(255, 94, 0, 0.32);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 15px 30px;
+      background: var(--surface);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--surface-border);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-subtle);
+      border-color: rgba(0, 0, 0, 0.12);
+      transform: translateY(-2px);
+    }
+
+    /* ─── ZONES (MINIMAL GRID) ─── */
+    .zones-section {
+      padding: 20px 0 70px;
+    }
+
+    .zones-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .zone-card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .zone-card:hover {
+      border-color: rgba(255, 94, 0, 0.3);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .zone-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--surface-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      color: var(--accent);
+      transition: var(--transition);
+    }
+
+    .zone-card:hover .zone-icon-wrap {
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+
+    .zone-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .zone-card-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* ─── SECTION COMMONS ─── */
+    .section {
+      padding: 90px 0;
+      position: relative;
+    }
+
+    .section-header {
+      margin-bottom: 48px;
+    }
+
+    .section-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .section-desc {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-top: 10px;
+      max-width: 600px;
+    }
+
+    /* ─── ABONEMENTS SECTION ─── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      align-items: stretch;
+      margin-bottom: 32px;
+    }
+
+    .pricing-card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-xl);
+      padding: 36px 22px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(0, 0, 0, 0.12);
+    }
+
+    .pricing-card-top {
+      margin-bottom: 28px;
+    }
+
+    .pricing-duration {
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .pricing-amount {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .pricing-num {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      line-height: 1;
+    }
+
+    .pricing-currency {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .pricing-features {
+      list-style: none;
+      border-top: 1px solid var(--surface-border-light);
+      padding-top: 20px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pricing-feature-item {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pricing-feature-item svg {
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+
+    .pricing-btn {
+      width: 100%;
+      padding: 11px 0;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-align: center;
+      border-radius: var(--radius-full);
+      background: var(--surface-subtle);
+      color: var(--text-main);
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .pricing-card:hover .pricing-btn {
+      background: var(--text-main);
+      color: #FFFFFF;
+    }
+
+    /* ─── HIGHLIGHTED HIT CARD (3 ЧАСА) ─── */
+    .pricing-card.featured {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-card-border);
+      box-shadow: 0 20px 48px -12px rgba(15, 18, 28, 0.45);
+      transform: scale(1.04);
+      z-index: 2;
+    }
+
+    .pricing-card.featured:hover {
+      transform: scale(1.04) translateY(-4px);
+      box-shadow: 0 28px 60px -12px rgba(15, 18, 28, 0.6);
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--accent) 0%, #FFA000 100%);
+      color: #FFFFFF;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 4px 14px rgba(255, 94, 0, 0.35);
+      white-space: nowrap;
+    }
+
+    .pricing-card.featured .pricing-duration {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .pricing-card.featured .pricing-num {
+      color: #FFFFFF;
+      font-size: 2.3rem;
+    }
+
+    .pricing-card.featured .pricing-currency {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .pricing-card.featured .pricing-features {
+      border-top-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .pricing-card.featured .pricing-feature-item {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .pricing-card.featured .pricing-feature-item svg {
+      color: var(--accent);
+    }
+
+    .pricing-card.featured .pricing-btn {
+      background: var(--accent);
+      color: #FFFFFF;
+      box-shadow: 0 8px 24px rgba(255, 94, 0, 0.35);
+    }
+
+    .pricing-card.featured .pricing-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    /* ─── EXTRA INFO TILES ─── */
+    .extras-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .extra-box {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .extra-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--accent-subtle);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .extra-body h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .extra-price-tag {
+      font-size: 0.9rem;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .extra-body p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .pricing-notice {
+      background: var(--surface-subtle);
+      border: 1px solid var(--surface-border-light);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .notice-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    /* ─── FAST FOOD CATALOG ─── */
+    .fastfood-section {
+      background: var(--surface);
+      border-top: 1px solid var(--surface-border-light);
+      border-bottom: 1px solid var(--surface-border-light);
+    }
+
+    .tabs-wrapper {
+      display: flex;
+      justify-content: flex-start;
+      border-bottom: 1px solid var(--surface-border);
+      margin-bottom: 36px;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      padding: 14px 24px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      position: relative;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      color: var(--accent);
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .menu-panel {
+      display: none;
+    }
+
+    .menu-panel.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .catalog-item {
+      background: var(--bg);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: var(--transition);
+    }
+
+    .catalog-item:hover {
+      border-color: rgba(255, 94, 0, 0.25);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .item-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .item-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .item-price {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+      white-space: nowrap;
+      letter-spacing: -0.01em;
+    }
+
+    .avg-check-bar {
+      margin-top: 36px;
+      background: var(--surface-subtle);
+      border: 1px dashed var(--surface-border);
+      border-radius: var(--radius-lg);
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .avg-check-text {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .avg-check-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: #0B0E17;
+      color: #FFFFFF;
+      padding: 64px 0 36px;
+    }
+
+    .footer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .footer-logo {
+      height: 44px;
+      width: auto;
+      border-radius: 8px;
+      object-fit: contain;
+      background: #0E1017;
+      padding: 2px 4px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: block;
+    }
+
+    .footer-brand-title {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+    }
+
+    .footer-brand-sub {
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .footer-contacts {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.65);
+      transition: var(--transition);
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-contact-link:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .footer-bottom {
+      padding-top: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.4);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .pricing-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .pricing-card.featured {
+        transform: scale(1);
+      }
+      .pricing-card.featured:hover {
+        transform: translateY(-4px);
+      }
+      .zones-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-inner {
+        height: 68px;
+      }
+      .header-cta {
+        display: none;
+      }
+      .hero {
+        padding: 64px 0 50px;
+      }
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+      .catalog-grid {
+        grid-template-columns: 1fr;
+      }
+      .extras-container {
+        grid-template-columns: 1fr;
+      }
+      .zones-grid {
+        grid-template-columns: 1fr;
+      }
+      .section {
+        padding: 60px 0;
+      }
+      .footer-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .footer-contacts {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+      }
+      .footer-contact-link {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── HEADER ─── -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="brand">
+        <img src="логотип.jpeg" alt="MINI CITY Logo" class="brand-logo">
+        <div class="brand-text">
+          <span class="brand-title">MINI CITY</span>
+          <span class="brand-subtitle">Ойын-сауық орталығы</span>
+        </div>
+      </a>
+      
+      <nav class="nav-links">
+        <a href="#abonements" class="nav-item">Абонементтер</a>
+        <a href="#fastfood" class="nav-item">Фаст-фуд</a>
+      </nav>
+
+      <a href="#abonements" class="header-cta">Тарифті таңдау</a>
+    </div>
+  </header>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="hero-glow-1"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Ойын-сауық орталығы
+        </div>
+        
+        <h1 class="hero-title">
+          Қозғалыс қуаты.<br>
+          <span>MINI CITY</span> кеңістігі
+        </h1>
+        
+        <p class="hero-desc">
+          Балалар мен бүкіл отбасы үшін белсенді демалыстың заманауи кеңістігі. 4 интерактивті ойын аймағы, қызықты квест және жылдам тамақтану мейрамханасы.
+        </p>
+        
+        <div class="hero-actions">
+          <a href="#abonements" class="btn-primary">
+            Абонементтерді көру
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#fastfood" class="btn-secondary">
+            Fast Food мәзірі
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ZONES OVERVIEW ─── -->
+  <section class="zones-section">
+    <div class="container">
+      <div class="zones-grid">
+        <div class="zone-card">
+          <div class="zone-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+          </div>
+          <h3 class="zone-card-title">Скалодром</h3>
+          <p class="zone-card-desc">Жас зерттеушілерге арналған түрлі күрделіліктегі қауіпсіз жолдар.</p>
+        </div>
+
+        <div class="zone-card">
+          <div class="zone-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="m8 19 4-4 4 4"/></svg>
+          </div>
+          <h3 class="zone-card-title">Сырғанақтар</h3>
+          <p class="zone-card-desc">Жұмсақ құрғақ бассейнге жылдам әрі толқынды түсу алаңы.</p>
+        </div>
+
+        <div class="zone-card">
+          <div class="zone-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="10" x="4" y="5" rx="2"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg>
+          </div>
+          <h3 class="zone-card-title">Машиналар (Автодром)</h3>
+          <p class="zone-card-desc">Қызықты жарыстар мен заездерге арналған арнайы автотрек.</p>
+        </div>
+
+        <div class="zone-card">
+          <div class="zone-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M7 3v6h6"/><path d="M17 7h-6v6"/><path d="M7 17v-4h4v4"/></svg>
+          </div>
+          <h3 class="zone-card-title">Лабиринт</h3>
+          <p class="zone-card-desc">Көпдеңгейлі кедергілер жолы, өткелдер мен тарзанкалар.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── АБОНЕМЕНТТЕР ─── -->
+  <section class="section" id="abonements">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Тарифтік жоспарлар</div>
+        <h2 class="section-title">MINI CITY абонементтері</h2>
+        <p class="section-desc">Барлық абонементке 4 аймақ кіреді: скалодром, сырғанақтар, машиналар, лабиринт.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- 1 САҒАТ -->
+        <div class="pricing-card">
+          <div>
+            <div class="pricing-card-top">
+              <div class="pricing-duration">1 сағат</div>
+              <div class="pricing-amount">
+                <span class="pricing-num">3 000</span>
+                <span class="pricing-currency">₸</span>
+              </div>
+            </div>
+            <ul class="pricing-features">
+              <li class="pricing-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Барлық 4 ойын аймағы
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Нұсқаушының қадағалауы
+              </li>
+            </ul>
+          </div>
+          <a href="#footer" class="pricing-btn">Таңдау</a>
+        </div>
+
+        <!-- 2 САҒАТ -->
+        <div class="pricing-card">
+          <div>
+            <div class="pricing-card-top">
+              <div class="pricing-duration">2 сағат</div>
+              <div class="pricing-amount">
+                <span class="pricing-num">5 000</span>
+                <span class="pricing-currency">₸</span>
+              </div>
+            </div>
+            <ul class="pricing-features">
+              <li class="pricing-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Барлық 4 ойын аймағы
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Аймақтар бойынша шектеусіз
+              </li>
+            </ul>
+          </div>
+          <a href="#footer" class="pricing-btn">Таңдау</a>
+        </div>
+
+        <!-- 3 САҒАТ (FEATURED HIT) -->
+        <div class="pricing-card featured">
+          <div class="featured-badge">Хит • Ең тиімді</div>
+          <div>
+            <div class="pricing-card-top">
+              <div class="pricing-duration">3 сағат</div>
+              <div class="pricing-amount">
+                <span class="pricing-num">7 000</span>
+                <span class="pricing-currency">₸</span>
+              </div>
+            </div>
+            <ul class="pricing-features">
+              <li class="pricing-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Барлық 4 ойын аймағы
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Ойынға арналған оңтайлы уақыт
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Максималды тиімділік
+              </li>
+            </ul>
+          </div>
+          <a href="#footer" class="pricing-btn">Таңдау</a>
+        </div>
+
+        <!-- 5 САҒАТ -->
+        <div class="pricing-card">
+          <div>
+            <div class="pricing-card-top">
+              <div class="pricing-duration">5 сағат</div>
+              <div class="pricing-amount">
+                <span class="pricing-num">9 000</span>
+                <span class="pricing-currency">₸</span>
+              </div>
+            </div>
+            <ul class="pricing-features">
+              <li class="pricing-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Барлық 4 ойын аймағы
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Еркін кіріп-шығу мүмкіндігі
+              </li>
+            </ul>
+          </div>
+          <a href="#footer" class="pricing-btn">Таңдау</a>
+        </div>
+
+        <!-- КҮНІ БОЙЫ -->
+        <div class="pricing-card">
+          <div>
+            <div class="pricing-card-top">
+              <div class="pricing-duration">Күні бойы</div>
+              <div class="pricing-amount">
+                <span class="pricing-num">12 000</span>
+                <span class="pricing-currency">₸</span>
+              </div>
+            </div>
+            <ul class="pricing-features">
+              <li class="pricing-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Барлық 4 ойын аймағы
+              </li>
+              <li class="pricing-feature-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Шектеусіз кіру мүмкіндігі
+              </li>
+            </ul>
+          </div>
+          <a href="#footer" class="pricing-btn">Таңдау</a>
+        </div>
+      </div>
+
+      <!-- EXTRAS -->
+      <div class="extras-container">
+        <div class="extra-box">
+          <div class="extra-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="extra-body">
+            <h4>Квест <span class="extra-price-tag">3 000 ₸ / адам.</span></h4>
+            <p>Аниматормен бір рет өту үшін бөлек төленеді</p>
+          </div>
+        </div>
+
+        <div class="extra-box">
+          <div class="extra-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <div class="extra-body">
+            <h4>Fast Food <span class="extra-price-tag">Мәзір бойынша</span></h4>
+            <p>Тағамдар, комболар, сусындар мен тәттілер бөлек төленеді</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-notice">
+        <span class="notice-dot"></span>
+        <span><strong>Ескерту:</strong> Абонементті скалодром, сырғанақтар, машиналар мен лабиринтте қолдануға болады.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FAST FOOD CATALOG ─── -->
+  <section class="section fastfood-section" id="fastfood">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Мәзір каталогы</div>
+        <h2 class="section-title">FAST FOOD — MINI CITY</h2>
+        <p class="section-desc">Балғын әрі сапалы өнімдер, сүйікті комбо-жиынтықтар және тәттілер.</p>
+      </div>
+
+      <!-- TABS -->
+      <div class="tabs-wrapper">
+        <button class="tab-btn active" data-tab="dishes">Тағамдар</button>
+        <button class="tab-btn" data-tab="combo">Комбо</button>
+        <button class="tab-btn" data-tab="drinks">Сусындар</button>
+        <button class="tab-btn" data-tab="desserts">Тәттілер</button>
+      </div>
+
+      <!-- PANEL 1: БЛЮДА (ТАҒАМДАР) -->
+      <div class="menu-panel active" id="tab-dishes">
+        <div class="catalog-grid">
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Чизбургер</span>
+              <span class="item-desc">Шырынды котлет, чеддер ірімшігі, фирмалық соус</span>
+            </div>
+            <span class="item-price">1 500 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Гамбургер</span>
+              <span class="item-desc">Балғын көкөністер қосылған классикалық ет бургері</span>
+            </div>
+            <span class="item-price">1 300 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Хот-дог</span>
+              <span class="item-desc">Грильде піскен шұжық, қытырлақ пияз, соустар</span>
+            </div>
+            <span class="item-price">1 200 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Наггетстер (6 дана)</span>
+              <span class="item-desc">Алтын түстес панировкадағы қытырлақ тауық еті</span>
+            </div>
+            <span class="item-price">1 300 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Фри картобы</span>
+              <span class="item-desc">Теңіз тұзы себілген қытырлақ алтын картоп</span>
+            </div>
+            <span class="item-price">900 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Ірімшік таяқшалары</span>
+              <span class="item-desc">Қытырлақ қабықтағы созылмалы моцарелла</span>
+            </div>
+            <span class="item-price">1 200 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Мини-пицца</span>
+              <span class="item-desc">Дәмді салмасы бар жеке порция</span>
+            </div>
+            <span class="item-price">1 500 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Пицца 30 см</span>
+              <span class="item-desc">Жұқа қамырдағы компанияға арналған үлкен пицца</span>
+            </div>
+            <span class="item-price">3 500 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Тауық етінен ролл</span>
+              <span class="item-desc">Бидай тортильясындағы тауық еті, қызанақ және салат</span>
+            </div>
+            <span class="item-price">1 600 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Қанаттар (6 дана)</span>
+              <span class="item-desc">Ащы немесе нәзік глазурьдегі тауық қанаттары</span>
+            </div>
+            <span class="item-price">1 800 ₸</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 2: КОМБО -->
+      <div class="menu-panel" id="tab-combo">
+        <div class="catalog-grid">
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Kids Combo</span>
+              <span class="item-desc">Наггетстер + фри картобы + сусын</span>
+            </div>
+            <span class="item-price">2 000 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Mini Combo</span>
+              <span class="item-desc">Чизбургер + фри картобы + сусын</span>
+            </div>
+            <span class="item-price">2 500 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Hot-Dog Combo</span>
+              <span class="item-desc">Хот-дог + фри картобы + сусын</span>
+            </div>
+            <span class="item-price">2 200 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Chicken Combo</span>
+              <span class="item-desc">Қанаттар + фри картобы + сусын</span>
+            </div>
+            <span class="item-price">2 800 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Big Combo</span>
+              <span class="item-desc">Чизбургер + наггетстер + фри картобы + сусын</span>
+            </div>
+            <span class="item-price">3 500 ₸</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 3: НАПИТКИ (СУСЫНДАР) -->
+      <div class="menu-panel" id="tab-drinks">
+        <div class="catalog-grid">
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Coca-Cola / Fanta / Sprite (0,5 л)</span>
+              <span class="item-desc">Классикалық салқындатылған газдалған сусындар</span>
+            </div>
+            <span class="item-price">600 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Шырын</span>
+              <span class="item-desc">Табиғи жеміс шырындарының түрлері</span>
+            </div>
+            <span class="item-price">500 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Су (0,5 л)</span>
+              <span class="item-desc">Тазартылған газдалмаған / газдалған су</span>
+            </div>
+            <span class="item-price">400 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Салқын шай</span>
+              <span class="item-desc">Лимон қосылған сергітетін көк немесе қара шай</span>
+            </div>
+            <span class="item-price">600 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Сүт коктейлі</span>
+              <span class="item-desc">Қою сүт коктейлі: ваниль, құлпынай, шоколад</span>
+            </div>
+            <span class="item-price">1 200 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Кофе</span>
+              <span class="item-desc">Балғын дәндерден дайындалған эспрессо, американо немесе капучино</span>
+            </div>
+            <span class="item-price">900 ₸</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 4: ДЕСЕРТЫ (ТӘТТІЛЕР) -->
+      <div class="menu-panel" id="tab-desserts">
+        <div class="catalog-grid">
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Пончик</span>
+              <span class="item-desc">Түрлі-түсті глазурь себілген нәзік донат</span>
+            </div>
+            <span class="item-price">700 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Маффин</span>
+              <span class="item-desc">Жаңа піскен шоколадты немесе ванильді кекс</span>
+            </div>
+            <span class="item-price">800 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Балмұздақ</span>
+              <span class="item-desc">Топпинг қосылған кілегейлі балмұздақ шарлары</span>
+            </div>
+            <span class="item-price">800 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Чизкейк</span>
+              <span class="item-desc">Классикалық нәзік ірімшік десерті</span>
+            </div>
+            <span class="item-price">1 200 ₸</span>
+          </div>
+
+          <div class="catalog-item">
+            <div class="item-info">
+              <span class="item-name">Тәттілер жиынтығы</span>
+              <span class="item-desc">Балалардың сүйікті тәттілерінің жиынтығы</span>
+            </div>
+            <span class="item-price">1 500 ₸</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- AVERAGE CHECK INFO -->
+      <div class="avg-check-bar">
+        <span class="avg-check-text">
+          Тамақтану аймағының шамамен құны:
+        </span>
+        <div class="avg-check-pill">
+          <span>Fast Food орташа чегі: ~ 2 000 – 2 500 ₸ / адам.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="логотип.jpeg" alt="MINI CITY" class="footer-logo">
+          <div>
+            <div class="footer-brand-title">MINI CITY</div>
+            <div class="footer-brand-sub">Ойын-сауық орталығы</div>
+          </div>
+        </div>
+
+        <div class="footer-contacts">
+          <a href="https://wa.me/77771781475" target="_blank" rel="noopener noreferrer" class="footer-contact-link" title="WhatsApp-қа жазу">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+            </svg>
+            <span>+7 777 178 1475</span>
+          </a>
+
+          <a href="https://instagram.com/mini_city_kokshetau" target="_blank" rel="noopener noreferrer" class="footer-contact-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            <span>@mini_city_kokshetau</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 MINI CITY. Барлық құқықтар қорғалған.</div>
+        <div>Бүкіл отбасыға арналған ойын-сауық кешені</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ─── SCRIPT ─── -->
+  <script>
+    // Tab Switching Logic
+    const tabs = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.menu-panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+
+        tab.classList.add('active');
+        const targetId = 'tab-' + tab.getAttribute('data-tab');
+        const targetPanel = document.getElementById(targetId);
+        if (targetPanel) {
+          targetPanel.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
